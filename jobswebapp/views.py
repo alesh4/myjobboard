@@ -10,6 +10,5 @@ def index(request):
     job_list = Job.objects.filter(date_posted__gte=from_date)
     #print(job_list[0])
     json_list = json.dumps(list(job_list.values()), default=str)
-    print(json_list)
+    #print(json_list)
     return render(request, "jobswebapp/index.html", {"jobs":job_list, "json_data":json_list})
-    #return render(request, "jobswebapp/about.html")
