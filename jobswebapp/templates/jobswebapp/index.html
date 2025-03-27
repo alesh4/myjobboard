@@ -1,0 +1,100 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+<div class="w-screen flex justify-center items-center py-4 text-gray-700"><!--bg-gray-200-->
+    <div class="mx-auto md:mx-0 md:w-5xl md:flex flex-row gap-x-8"><!--1128 seems to be the biggest width-->
+        <div class="flex flex-col space-y-2 w-1/2">
+            {% for job in jobs %}
+            <div class="w-80 sm:w-md md:w-sm lg:w-md relative py-4 bg-gray-100 h-40 pl-8" id="job-index-{{forloop.counter0}}">
+                <h2 class="block h-8 text-2xl truncate peer">{{job.title}}</h2>
+                <div class="absolute -top-2 left-1/4 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-700 rounded shadow-lg opacity-0 peer-hover:opacity-100">
+                    {{job.title}}
+                </div>
+                <h4 class="">{{job.company}}</h4>
+                <h4 class="">{{job.location}}</h4>
+                <div class="absolute bottom-1 right-1">
+                    {% with time_ago=job.date_posted|timesince %}
+                    {# with days_ago=time_ago.split.0 time_ago.split.1 #}
+                      {{ time_ago.split.0 }} 
+                      {% if "day," in time_ago.split.1 %}
+                      day ago
+                      {% elif "days" in time_ago.split.1 %}
+                      days ago
+                      {% else %}
+                      hours ago
+                      {% endif %}
+                    {# endwith #}
+                    {% endwith %}
+                    <!--{{job.date_posted}}-->
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+        <!--to be continued unable to use the same div for description and modal-->
+        <!--<div class="fixed hidden top-0 h-screen w-screen md:block md:static md:h-full md:w-1/2">-->
+        <div class="hidden md:static">
+            <div id="selected-job" class="bg-gray-100 mx-auto min-w-40 md:flex flex-col gap-y-4 p-4 md:sticky md:top-8">
+                <div class="flex flex-row justify-between">
+                    <div class="flex items-end">
+                        <img src="https://placehold.co/45x45" class="">
+                        <h4 class="pl-2" id="selected-job-company">Company name here</h4>
+                    </div>
+                    <button type="button"><a id="selected-job-url" href="https://placehold.co/45x45" class="" target="_blank"><span class="inline">Apply</span><img src="{% static 'image/arrow_design.png' %}" width="15px" height="15px" /></a></button>
+                    
+                </div>
+                <h3 id="selected-job-title" class="">title will go here</h3>
+                <div id="link" class="hidden"></div>
+                <div class="overflow-y-scroll max-h-80 h-80">
+                    <p id="selected-job-description">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip ex
+                        ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                        dolore
+                        eu fugiat
+                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                        deserunt
+                        mollit
+                        anim id est laborum.
+                    </p>
+                    <h4 id="selected-job-salary" class="hidden"></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        //return false;
+        var json_data = {{json_data|safe}};
+        let elementlist = Array.from(document.querySelectorAll('[id*=job-index-]'))
+        elementlist.forEach((e,i) => e.onclick = () => 
+        {
+            //console.log(i,json_data)//we want to call func and update values
+            //console.log(i);
+            let job = json_data[i];
+            let job_title_element = document.getElementById('selected-job-title');
+            let job_company_element = document.getElementById("selected-job-company");
+            let job_url_element = document.getElementById('selected-job-url');
+            let job_description_element = document.getElementById('selected-job-description');
+            job_title_element.textContent = job['title'];
+            job_url_element.href = job['job_url'];
+            job_description_element.textContent = job['description'];
+            job_company_element.textContent = job['company']
+        });
+        //console.log(json_data)
+    });
+
+    function attach_desc(index,json_data){
+        let_job = json_data[i];
+        
+    }
+</script>
+{% endblock js%}
