@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('DJANGO-SECRET_KEY','django-insecure-je0s2q5a9dz!*uy$#2=!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "192.168.254.27", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "192.168.254.27", "localhost","accessnest.ddnsking.com"]
 
 
 # Application definition
