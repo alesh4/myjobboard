@@ -31,12 +31,12 @@ jobs:
     - name: Setup SSH
       run: |
           mkdir -p ~/.ssh/
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ../private.key
-          sudo chmod 600 ../private.key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private.key
+          sudo chmod 600 private.key
           echo "${{ secrets.SSH_KNOWN_HOST }}" > ~/.ssh/known_hosts
 
     - name: Push to server
       run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} cd myjobboard && git pull && kill -HUP app.pid
+          ssh -i private.key ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} cd myjobboard && git pull && kill -HUP app.pid
     - name: Done
       run: echo "DONE"
