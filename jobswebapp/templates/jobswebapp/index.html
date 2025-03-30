@@ -1,0 +1,156 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+<div class="w-screen flex justify-center items-center py-4 text-gray-700" id="main-container"><!--bg-gray-200-->
+    <div class="mx-auto md:mx-0 md:w-5xl md:flex md:flex-row gap-x-8"><!--1128 seems to be the biggest width on the template I copied-->
+        <div class="flex flex-col space-y-2">
+            {% for job in jobs %}
+            <div class="w-80 sm:w-md md:w-sm lg:w-md relative py-4 bg-gray-100 h-40 pl-8 overflow-hidden" id="job-index-{{forloop.counter0}}"> <!--not sure who is overflowing-->
+                <h2 class="block h-8 text-2xl truncate peer">{{job.title}}</h2>
+                <div class="absolute -top-2 left-1/4 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-700 rounded shadow-lg opacity-0 peer-hover:opacity-100">
+                    {{job.title}}
+                </div>
+                <h4 class="">{{job.company}}</h4>
+                <h4 class="">{{job.location}}</h4>
+                <div class="absolute bottom-1 right-1">
+                    {% with time_ago=job.date_posted|timesince %}
+                    {# with days_ago=time_ago.split.0 time_ago.split.1 #}
+                      {{ time_ago.split.0 }} 
+                      {% if "day," in time_ago.split.1 %}
+                      day ago
+                      {% elif "days" in time_ago.split.1 %}
+                      days ago
+                      {% else %}
+                      hours ago
+                      {% endif %}
+                    {# endwith #}
+                    {% endwith %}
+                    <!--{{job.date_posted}}-->
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+        <div class="hidden md:block">
+            <div id="selected-job" class="bg-gray-100 mx-auto min-w-40 md:flex flex-col gap-y-4 p-4 md:sticky md:top-8">
+                <div class="flex flex-row justify-between">
+                    <div class="flex items-end">
+                        <img src="https://placehold.co/45x45" class="">
+                        <h4 class="pl-2" id="selected-job-company">Company name here</h4>
+                    </div>
+                    <button type="button"><a id="selected-job-url" href="https://placehold.co/45x45" class="" target="_blank"><span class="inline">Apply</span><img src="{% static 'image/arrow_design.png' %}" width="15px" height="15px" /></a></button>
+                    
+                </div>
+                <h3 id="selected-job-title" class="">title will go here</h3>
+                <div id="link" class="hidden"></div>
+                <div class="overflow-y-scroll max-h-80 h-80">
+                    <p id="selected-job-description">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip ex
+                        ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                        dolore
+                        eu fugiat
+                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                        deserunt
+                        mollit
+                        anim id est laborum.
+                    </p>
+                    <h4 id="selected-job-salary" class="hidden"></h4>
+                </div>
+            </div>
+        </div>
+        <div class="hidden top-0 left-0 h-full w-full backdrop-blur-sm flex flex-col justify-center items-center md:hidden" id="selected-job-modal">
+            <div class="flex flex-row justify-end w-full bg-green-900">
+                <button id="modal-close-btn" class="w-12 h-12 bg-green-950">X</button>
+            </div>
+            <div id="selected-job" class="bg-gray-100 mx-auto min-w-40 md:flex flex-col gap-y-4 p-4">
+                <div class="flex flex-row justify-between">
+                    <div class="flex items-end">
+                        <img src="https://placehold.co/45x45" class="">
+                        <h4 class="pl-2" id="selected-job-company-modal">Company name here</h4>
+                    </div>
+                    <button type="button"><a id="selected-job-url-modal" href="https://placehold.co/45x45" class="" target="_blank"><span class="inline">Apply</span><img src="{% static 'image/arrow_design.png' %}" width="15px" height="15px" /></a></button>
+                    
+                </div>
+                <h3 id="selected-job-title-modal" class="">title will go here</h3>
+                <div id="link" class="hidden"></div>
+                <div class="overflow-y-scroll max-h-80 h-80">
+                    <p id="selected-job-description-modal">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                        aliquip ex
+                        ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                        dolore
+                        eu fugiat
+                        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                        deserunt
+                        mollit
+                        anim id est laborum.
+                    </p>
+                    <h4 id="selected-job-salary-modal" class="hidden"></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        //return false;
+        var json_data = {{json_data|safe}};
+        let elementlist = Array.from(document.querySelectorAll('[id*=job-index-]'))
+        elementlist.forEach((e,i) => e.onclick = () => 
+        {
+            //console.log(i,json_data)//we want to call func and update values
+            //console.log(i);
+            //my fix for mobile screens :-/
+            let ismobile = window.screen.width >= 768? "" : "-modal"; 
+            let job = json_data[i];
+            let job_title_element = document.getElementById('selected-job-title'+ismobile);
+            let job_company_element = document.getElementById("selected-job-company"+ismobile);
+            let job_url_element = document.getElementById('selected-job-url'+ismobile);
+            let job_description_element = document.getElementById('selected-job-description'+ismobile);
+            if (ismobile.length > 0) {
+                let temp_element = document.getElementById("selected-job-modal");
+                temp_element.classList.remove("hidden");
+                temp_element.classList.add("fixed")
+            }
+            job_title_element.textContent = job['title'];
+            job_url_element.href = job['job_url'];
+            job_description_element.textContent = job['description'];
+            job_company_element.textContent = job['company']
+        });
+        //console.log(json_data)
+        document.getElementById("selected-job-modal").addEventListener("click", function(event){
+            if(event.target === event.currentTarget){
+                close_modal();
+            }
+        });
+        document.getElementById("modal-close-btn").addEventListener("click", function(){
+            close_modal();
+        })
+        
+    });
+
+    function attach_desc(index,json_data){
+        let_job = json_data[i];
+        
+    }
+
+    function close_modal(){
+        let modal = document.getElementById("selected-job-modal");
+        if(!modal.classList.contains("hidden")){
+            modal.classList.add("hidden");
+            modal.classList.remove("fixed");
+        }
+    }
+</script>
+{% endblock js%}
