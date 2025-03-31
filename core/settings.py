@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO-SECRET_KEY','django-insecure-je0s2q5a9dz!*uy$#2=!tr^gmj%be6t^g^*^ys^bn*p#e&(745')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "192.168.254.27", "localhost","accessnest.ddnsking.com"]
 
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -129,4 +130,4 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 STATIC_URL = "static/"
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = "/var/www/myjobboard/static"
