@@ -38,6 +38,6 @@ jobs:
 
     - name: Push to server
       run: |
-          ssh -i private.key ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} cd myjobboard && git pull && kill -HUP app.pid
+          ssh -i private.key ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} cd myjobboard && git pull && kill -HUP $(cat app.pid)
     - name: Done
       run: echo "DONE"
