@@ -1,5 +1,9 @@
 from django.test import TestCase
+from unittest.mock import MagicMock
+import sys
 #from jobswebapp.models import Job
+
+sys.modules['whitenoise'] = MagicMock()
 
 class MyJobBoardTests(TestCase):
     def setUp(self):
