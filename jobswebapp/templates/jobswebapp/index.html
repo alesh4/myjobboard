@@ -120,6 +120,7 @@
             let job_description_element = document.getElementById('selected-job-description'+ismobile);
             if (ismobile.length > 0) {
                 let temp_element = document.getElementById("selected-job-modal");
+                document.body.classList.add("overflow-hidden");
                 temp_element.classList.remove("hidden");
                 temp_element.classList.add("fixed")
             }
@@ -150,6 +151,7 @@
         if(!modal.classList.contains("hidden")){
             modal.classList.add("hidden");
             modal.classList.remove("fixed");
+            document.body.classList.remove("overflow-hidden");
         }
     }
 </script>
