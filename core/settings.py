@@ -154,6 +154,6 @@ STATIC_URL = "static/"
 STATIC_ROOT = "/var/www/myjobboard/static"
 
 try:
-    from env.py import *
+    from env import *
 except:
     pass
