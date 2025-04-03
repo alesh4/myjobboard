@@ -27,7 +27,7 @@ jobs:
       run: |
         sudo mkdir -p /var/log/myjobboard/
         sudo touch /var/log/myjobboard/django.app.log
-        sudo chmod 666 /var/log/django/django.app.log
+        sudo chmod 666 /var/log/myjobboard/django.app.log
         
     - name: Run Tests
       run: |
