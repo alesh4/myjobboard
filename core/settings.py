@@ -157,3 +157,8 @@ try:
     from env import *
 except:
     pass
+
+try:
+    ALLOWED_HOSTS.add(SERVER_IP)
+except:
+    pass

@@ -24,5 +24,6 @@ def jobsinlocation(request, location):
     return render(request, "jobswebapp/index.html", {"jobs":job_list, "json_data":json_list})
 
 def HealthCheckBackend(request):
+    # used to check if my logger was set correctly. it appears it is. this method should not be called for now
     raise Exception("Make Response code 500")
     return redirect("/jobs/")
