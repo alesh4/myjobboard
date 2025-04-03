@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,13 +22,33 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO-SECRET_KEY','django-insecure-je0s2q5a9dz!*uy$#2=!tr^gmj%be6t^g^*^ys^bn*p#e&(745')
+SECRET_KEY = 'DJANGO-SECRET_KEY','django-insecure-je0s2q5a9dz!*uy$#2=!tr^gmj%be6t^g^*^ys^bn*p#e&(745'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "192.168.254.27", "localhost","accessnest.ddnsking.com"]
 
+#logging
+if not DEBUG:
+    LOGGING={
+        'version':1,
+        'disable_existing_loggers':False,
+        'handlers':{
+            'file':{
+                'level':'INFO',
+                'class':'logging.FileHandler',
+                'filename':'/var/log/myjobboard/django.app.log',
+            }
+        },
+        'loggers':{
+            '':{
+                'handler':['file'],
+                'level':"INFO",
+                'propagate':True,
+            }
+        }
+    }
 
 # Application definition
 
@@ -131,3 +152,8 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 STATIC_URL = "static/"
 
 STATIC_ROOT = "/var/www/myjobboard/static"
+
+try:
+    from env.py import *
+except:
+    pass
