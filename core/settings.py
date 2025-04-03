@@ -43,7 +43,7 @@ if not DEBUG:
         },
         'loggers':{
             '':{
-                'handler':['file'],
+                'handlers':['file'],
                 'level':"INFO",
                 'propagate':True,
             }
