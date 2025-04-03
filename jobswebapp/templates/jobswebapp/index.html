@@ -5,7 +5,7 @@
     <div class="mx-auto md:mx-0 md:w-5xl md:flex md:flex-row gap-x-8"><!--1128 seems to be the biggest width on the template I copied-->
         <div class="flex flex-col space-y-2">
             {% for job in jobs %}
-            <div class="w-80 sm:w-md md:w-sm lg:w-md relative py-4 bg-gray-100 h-40 pl-8 overflow-hidden" id="job-index-{{forloop.counter0}}"> <!--not sure who is overflowing-->
+            <div class="w-80 sm:w-md md:w-sm lg:w-md relative py-4 bg-gray-100 h-40 pl-8 overflow-hidden rounded-sm" id="job-index-{{forloop.counter0}}"> <!--not sure who is overflowing-->
                 <h2 class="block h-8 text-2xl truncate peer">{{job.title}}</h2>
                 <div class="absolute -top-2 left-1/4 mb-2 w-max px-2 py-1 text-sm text-white bg-gray-700 rounded shadow-lg opacity-0 peer-hover:opacity-100">
                     {{job.title}}
@@ -111,6 +111,10 @@
         {
             //console.log(i,json_data)//we want to call func and update values
             //console.log(i);
+            for(let i = 0 ; i < elementlist.length; i++){
+               elementlist[i].classList.remove("border-2");
+            }
+            e.classList.add("border-2");
             //my fix for mobile screens :-/
             let ismobile = window.screen.width >= 768? "" : "-modal"; 
             let job = json_data[i];
