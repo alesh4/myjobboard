@@ -22,3 +22,7 @@ def jobsinlocation(request, location):
     job_list = Job.objects.filter(date_posted__gte=from_date, location=location)
     json_list = json.dumps(list(job_list.values()), default=str)
     return render(request, "jobswebapp/index.html", {"jobs":job_list, "json_data":json_list})
+
+def HealthCheckBackend(request):
+    raise Exception("Make Response code 500")
+    return redirect("/jobs/")
