@@ -44,6 +44,6 @@ jobs:
 
     - name: Push to server
       run: |
-          ssh -i private.key ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} 'cd myjobboard ; git pull ; kill -HUP $(cat app.pid) ; echo "done!"'
+          ssh -i private.key ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} 'cd myjobboard ; git pull ; tailwindcss -i core/static/core/css/input.css -o core/static/core/css/output.css --minify ; ../.venv/bin/python manage.py collectstatic --noinput ; kill -HUP $(cat app.pid) ; echo "done!"'
     - name: Done
       run: echo "DONE"
