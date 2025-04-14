@@ -21,3 +21,6 @@ class Job(models.Model):
     company_logo = models.CharField(max_length=255, null=True)
     company_description = models.TextField()
     #applied = 
+    
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['company','date_posted', 'title'], name='unique_date_company_title')]
