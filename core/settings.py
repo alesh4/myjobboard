@@ -34,11 +34,18 @@ if not DEBUG:
     LOGGING={
         'version':1,
         'disable_existing_loggers':False,
+        'formatters':{
+            'wtimestamp': {
+                'format': '{asctime} {levelname} {message}',
+                'style': '{',
+            },
+        },
         'handlers':{
             'file':{
                 'level':'INFO',
                 'class':'logging.FileHandler',
                 'filename':'/var/log/myjobboard/django.app.log',
+                'formatter':'wtimestamp'
             }
         },
         'loggers':{
