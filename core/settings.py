@@ -27,7 +27,14 @@ SECRET_KEY = 'django-insecure-je0s2q5a9dz!*uy$#2=!tr^gmj%be6t^g^*^ys^bn*p#e&(745
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "192.168.254.27", "localhost","accessnest.ddnsking.com"]
+SERVER_IP = ""
+
+try:
+    from env import *
+except:
+    pass
+
+ALLOWED_HOSTS = ["127.0.0.1", "192.168.254.27", "localhost", "accessnest.ddnsking.com", SERVER_IP]
 
 #logging
 if not DEBUG:
@@ -163,13 +170,3 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 STATIC_URL = "static/"
 
 STATIC_ROOT = "/var/www/myjobboard/static"
-
-try:
-    from env import *
-except:
-    pass
-
-try:
-    ALLOWED_HOSTS.add(SERVER_IP)
-except:
-    pass
