@@ -18,7 +18,7 @@ def jobsinlocation(request, location):
 
     latest_only = request.GET.get('lo',None)
     from_date = date.today() - timedelta(days=2) #change delta accordandly
-    job_list = Job.objects.filter(location_contains=location)
+    job_list = Job.objects.filter(location__contains=location)
     latest_only = False if latest_only in ['False','f','false','0'] else True
     if latest_only:
         job_list = job_list & Job.objects.filter(date_posted__gte=from_date)
