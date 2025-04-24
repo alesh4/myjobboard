@@ -7,7 +7,7 @@ from .models import Job
 # Create your views here.
 def index(request):
     from_date = date.today() - timedelta(days=2) #change delta accordandly
-    job_list = Job.objects.filter(date_posted__gte=from_date, location__contains="Seattle")
+    job_list = Job.objects.filter(date_posted__gte=from_date, location__contains="Seattle").order_by('-date_posted')
     json_list = json.dumps(list(job_list.values()), default=str)
     return render(request, "jobswebapp/index.html", {"jobs":job_list, "json_data":json_list})
 
@@ -18,7 +18,7 @@ def jobsinlocation(request, location):
 
     latest_only = request.GET.get('lo',None)
     from_date = date.today() - timedelta(days=2) #change delta accordandly
-    job_list = Job.objects.filter(location__contains=location)
+    job_list = Job.objects.filter(location__contains=location).order_by('-date_posted')
     latest_only = False if latest_only in ['False','f','false','0'] else True
     if latest_only:
         job_list = job_list & Job.objects.filter(date_posted__gte=from_date)
